@@ -21,7 +21,33 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'balance',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+            'balance' => 'decimal:2',
+        ];
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isNasabah(): bool
+    {
+        return $this->role === 'nasabah';
+    }
+
+    public function pickupRequests(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\PickupRequest::class);
+    }
 
     /**
      * The attributes that should be hidden for serialization.
@@ -33,16 +59,4 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
 }

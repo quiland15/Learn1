@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Dashboard\AdminDashboardController;
 use App\Http\Controllers\Dashboard\NasabahDashboardController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HydroponicController;
 use App\Http\Middleware\EnsureUserIsAdmin;
 use App\Models\PickupRequest;
 use Illuminate\Support\Facades\Route;
@@ -15,6 +16,18 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
+
+// Hydroponic Monitoring (Laravel format - dari project b_F35RkVZXL8U)
+Route::prefix('hydroponic')->name('hydroponic.')->group(function () {
+    Route::get('/', [HydroponicController::class, 'index'])->name('dashboard');
+    Route::post('pump/start', [HydroponicController::class, 'startPump'])->name('pump.start');
+    Route::post('pump/stop', [HydroponicController::class, 'stopPump'])->name('pump.stop');
+    Route::post('nutrient/trigger', [HydroponicController::class, 'triggerNutrient'])->name('nutrient.trigger');
+    Route::post('ph/adjust', [HydroponicController::class, 'adjustPh'])->name('ph.adjust');
+    Route::get('report/download', [HydroponicController::class, 'downloadReport'])->name('report.download');
+    Route::get('docs', [HydroponicController::class, 'docs'])->name('docs');
+    Route::get('support', [HydroponicController::class, 'support'])->name('support');
+});
 
 Route::middleware('guest')->group(function () {
     Route::get('login', [LoginController::class, 'create'])->name('login');

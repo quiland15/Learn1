@@ -25,9 +25,9 @@
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const hours = @json($chartHours ?? ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00', '24:00']);
-    const phData = @json($phData ?? [6.1, 6.3, 6.2, 6.0, 6.4, 6.2, 6.3]);
-    const ppmData = @json($ppmData ?? [820, 850, 830, 870, 860, 840, 850]);
+    const hours = @json(isset($chartHours) ? $chartHours : ['00:00','04:00','08:00','12:00','16:00','20:00','24:00']);
+    const phData = @json(isset($phData) ? $phData : [6.1,6.3,6.2,6.0,6.4,6.2,6.3]);
+    const ppmData = @json(isset($ppmData) ? $ppmData : [820,850,830,870,860,840,850]);
 
     const chartConfig = {
         responsive: true,
